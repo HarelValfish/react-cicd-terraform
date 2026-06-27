@@ -1,6 +1,6 @@
 resource "aws_cloudfront_origin_access_control" "website" {
-  name                              = "${var.project_name}-oac"
-  description                       = "OAC for ${var.project_name} S3 bucket"
+  name                              = "${local.prefix}-oac"
+  description                       = "OAC for ${local.prefix} S3 bucket"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
@@ -58,8 +58,7 @@ resource "aws_cloudfront_distribution" "website" {
     cloudfront_default_certificate = true
   }
 
-  tags = {
-    Name    = "${var.project_name}-distribution"
-    Project = var.project_name
-  }
+  tags = merge(local.common_tags, {
+    Name = "${local.prefix}-distribution"
+  })
 }

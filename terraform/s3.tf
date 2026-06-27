@@ -1,10 +1,10 @@
 resource "aws_s3_bucket" "website" {
-  bucket = "${var.project_name}-${data.aws_caller_identity.current.account_id}"
+  bucket        = "${local.prefix}-${data.aws_caller_identity.current.account_id}"
+  force_destroy = true
 
-  tags = {
-    Name    = "${var.project_name}-website"
-    Project = var.project_name
-  }
+  tags = merge(local.common_tags, {
+    Name = "${local.prefix}-website"
+  })
 }
 
 resource "aws_s3_bucket_versioning" "website" {

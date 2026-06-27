@@ -50,12 +50,13 @@ data "aws_iam_policy_document" "github_actions_permissions" {
 }
 
 resource "aws_iam_role" "github_actions" {
-  name               = "${var.project_name}-github-actions"
+  name               = "${local.prefix}-github-actions"
   assume_role_policy = data.aws_iam_policy_document.github_actions_assume_role.json
+  tags               = local.common_tags
 }
 
 resource "aws_iam_role_policy" "github_actions" {
-  name   = "${var.project_name}-github-actions-policy"
+  name   = "${local.prefix}-github-actions-policy"
   role   = aws_iam_role.github_actions.id
   policy = data.aws_iam_policy_document.github_actions_permissions.json
 }

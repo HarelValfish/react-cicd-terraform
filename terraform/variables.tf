@@ -14,3 +14,9 @@ variable "github_repository" {
   description = "GitHub repository in owner/name format"
   type        = string
 }
+
+variable "environment" {
+  description = "Deployment environment"
+  type        = string
+  default     = "prod"
+}
